@@ -7,6 +7,7 @@ from typing import Optional
 
 @dataclass
 class AdAccount:
+    " Entidad que representa una cuenta publicitaria de Facebook."
     id: str
     name: Optional[str] = None
     account_status: Optional[int] = None
