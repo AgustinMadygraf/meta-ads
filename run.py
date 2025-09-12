@@ -5,11 +5,13 @@ Path: run.py
 from src.shared.config import get_facebook_credentials
 from src.shared.logger import get_logger
 from src.interface_adapters.gateway.facebook_gateway import FacebookGateway, FacebookGatewayError
+from src.use_cases.get_ad_account_info import GetAdAccountInfoUseCase
 
 logger = get_logger()
 
 # Obtener credenciales desde variables de entorno
 creds = get_facebook_credentials()
+
 
 gateway = FacebookGateway(
     access_token=creds["access_token"],
@@ -18,8 +20,11 @@ gateway = FacebookGateway(
     account_id=creds["ad_account_id"]
 )
 
+# Instanciar el caso de uso
+get_account_info_use_case = GetAdAccountInfoUseCase(gateway)
+
 try:
-    response = gateway.get_account_info()
+    response = get_account_info_use_case.execute()
     logger.info("Respuesta de la API de Facebook:")
     logger.info(response)
 except FacebookGatewayError as e:

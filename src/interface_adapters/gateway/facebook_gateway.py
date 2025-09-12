@@ -56,4 +56,5 @@ class FacebookGateway:
             }
             raise FacebookGatewayError('Error en la API de Facebook', details) from e
         except Exception as e:
-            raise FacebookGatewayError('Error inesperado en el gateway de Facebook', {'exception': str(e)}) from e
+            raise FacebookGatewayError('Error inesperado en el gateway de Facebook',
+                                       {'exception': str(e)}) from e
