@@ -2,39 +2,28 @@
 Path: run.py
 """
 
-from facebook_business.api import FacebookAdsApi
-from facebook_business.adobjects.adaccount import AdAccount
-from facebook_business.exceptions import FacebookRequestError
 from src.shared.config import get_facebook_credentials
 from src.shared.logger import get_logger
+from src.interface_adapters.gateway.facebook_gateway import FacebookGateway, FacebookGatewayError
 
 logger = get_logger()
 
 # Obtener credenciales desde variables de entorno
 creds = get_facebook_credentials()
 
-# Inicializar API
-FacebookAdsApi.init(
-    creds["app_id"],
-    creds["app_secret"],
-    creds["access_token"]
+gateway = FacebookGateway(
+    access_token=creds["access_token"],
+    app_id=creds["app_id"],
+    app_secret=creds["app_secret"],
+    account_id=creds["ad_account_id"]
 )
 
-# Obtener información básica de la cuenta publicitaria con manejo de errores
 try:
-    account = AdAccount(creds["ad_account_id"])
-    response = account.api_get()
+    response = gateway.get_account_info()
     logger.info("Respuesta de la API de Facebook:")
     logger.info(response)
-except FacebookRequestError as e:
-    logger.error("Error en la solicitud a la API de Facebook:")
-    logger.error("Mensaje: %s", e.body().get('error', {}).get('message'))
-    logger.error("Código: %s", e.body().get('error', {}).get('code'))
-    logger.error("Tipo: %s", e.body().get('error', {}).get('type'))
-    logger.error("Más detalles: %s", e.body())
-except KeyError as ex:
-    logger.error("Falta una clave en las credenciales o en la respuesta:")
-    logger.error(str(ex))
-except TypeError as ex:
-    logger.error("Error de tipo de dato:")
-    logger.error(str(ex))
+except FacebookGatewayError as e:
+    logger.error("Error en la API de Facebook: %s", e)
+    if hasattr(e, 'details') and e.details:
+        for k, v in e.details.items():
+            logger.error("%s: %s", k, v)

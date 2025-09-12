@@ -5,15 +5,14 @@ Path: src/shared/logger.py
 import logging
 import sys
 
-def get_logger(name: str = "meta_ads"):
+def get_logger():
     " Obtener un logger configurado."
-    logger = logging.getLogger(name)
+    logger = logging.getLogger("meta_ads")
     if not logger.hasHandlers():
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler(sys.stdout)
         formatter = logging.Formatter(
-            '[%(asctime)s] %(levelname)s %(name)s: %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
+            '[%(levelname)s] %(filename)s:%(lineno)d - %(message)s',
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
