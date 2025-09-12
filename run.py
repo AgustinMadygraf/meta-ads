@@ -7,6 +7,7 @@ from src.shared.logger import get_logger
 from src.interface_adapters.gateway.facebook_gateway import FacebookGateway
 from src.use_cases.get_ad_account_info import GetAdAccountInfoUseCase
 from src.interface_adapters.controller.ad_account_controller import AdAccountController
+from src.interface_adapters.presenter.ad_account_presenter import AdAccountPresenter
 
 logger = get_logger()
 
@@ -28,9 +29,7 @@ ad_account_controller = AdAccountController(get_account_info_use_case)
 
 
 # Usar el controlador para obtener la información
-response = ad_account_controller.get_account_info()
-if response:
-    logger.info("Respuesta de la API de Facebook:")
-    logger.info(response)
-else:
-    logger.error("No se pudo obtener la información de la cuenta publicitaria.")
+
+ad_account = ad_account_controller.get_account_info()
+output = AdAccountPresenter.to_cli_string(ad_account)
+logger.info(output)
