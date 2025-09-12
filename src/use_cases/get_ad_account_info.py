@@ -4,6 +4,7 @@ Path: src/use_cases/get_ad_account_info.py
 
 
 from src.interface_adapters.gateway.facebook_gateway import FacebookGateway, FacebookGatewayError
+from src.entities.ad_account import AdAccount
 from src.shared.logger import get_logger
 
 
@@ -19,7 +20,15 @@ class GetAdAccountInfoUseCase:
         Aquí se pueden agregar validaciones o lógica de negocio adicional.
         """
         try:
-            return self.gateway.get_account_info()
+            data = self.gateway.get_account_info()
+            # Mapear los datos crudos a la entidad de dominio
+            return AdAccount(
+                id=data.get('id'),
+                name=data.get('name'),
+                account_status=data.get('account_status'),
+                currency=data.get('currency'),
+                amount_spent=data.get('amount_spent'),
+            )
         except FacebookGatewayError as e:
             self.logger.error("Error al obtener información de la cuenta publicitaria: %s", e)
             if hasattr(e, 'details') and e.details:
