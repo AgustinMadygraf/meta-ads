@@ -14,5 +14,5 @@ def get_facebook_credentials():
         "app_id": os.getenv("FACEBOOK_APP_ID"),
         "app_secret": os.getenv("FACEBOOK_APP_SECRET"),
         "access_token": os.getenv("FACEBOOK_ACCESS_TOKEN"),
-        "ad_account_id": os.getenv("FACEBOOK_AD_ACCOUNT_ID"),
+        "ad_account_id": os.getenv("AD_ACCOUNT_ID"),
     }

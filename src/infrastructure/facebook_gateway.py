@@ -10,13 +10,13 @@ from src.use_cases.ports.ad_account_gateway_port import AdAccountGatewayPort
 
 # Excepción personalizada para el gateway
 class FacebookGatewayError(Exception):
-    """Errores relacionados con la comunicación con Facebook desde el gateway."""
+    "Errores relacionados con la comunicación con Facebook desde el gateway."
     def __init__(self, message, details=None):
         super().__init__(message)
         self.details = details
 
 class FacebookGateway(AdAccountGatewayPort):
-    """Adaptador para interactuar con la API de Facebook Ads."""
+    "Adaptador para interactuar con la API de Facebook Ads."
     def __init__(self, access_token: str, app_id: str, app_secret: str, account_id: str):
         self.access_token = access_token
         self.app_id = app_id
@@ -60,9 +60,7 @@ class FacebookGateway(AdAccountGatewayPort):
                                        {'exception': str(e)}) from e
 
     def get_ad_account_info(self, account_id: str) -> dict:
-        """
-        Implementación del puerto. Permite obtener la información de una cuenta publicitaria por su ID.
-        """
+        "Implementación del puerto. Permite obtener la información de una cuenta publicitaria por su ID."
         original_account_id = self.account_id
         self.account_id = account_id
         try:

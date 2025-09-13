@@ -1,15 +1,17 @@
-
 """
 Path: src/infrastructure/flask_app.py
 """
 
+import os
 from typing import Optional
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, send_from_directory
 from werkzeug.exceptions import HTTPException
 
 from src.infrastructure.dependency_factory import build_ad_account_controller
 
-app = Flask(__name__)
+# Ajusta el path a la carpeta static
+static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../static'))
+app = Flask(__name__, static_folder=static_dir, static_url_path='/static')
 
 def get_ad_account_controller(controller: Optional[object] = None):
     "Obtains the ad account controller, either from DI or by building a new one."
@@ -29,9 +31,9 @@ def get_ad_account(account_id):
 
 
 @app.route('/', methods=['GET'])
-def welcome():
-    "Welcome route."
-    return jsonify({"message": "Bienvenido a la API de Meta Ads. Consulta /ad_account/<account_id> para obtener información de cuentas publicitarias."})
+def home():
+    "Serve static index.html as home."
+    return send_from_directory(static_dir, 'index.html')
 
 @app.route('/ad_account', methods=['POST'])
 def get_ad_account_post():

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Meta Ads - Consulta de Cuenta Publicitaria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="mb-4">Consulta de Cuenta Publicitaria</h1>
+        <form id="adAccountForm" class="mb-4">
+            <div class="mb-3">
+                <label for="account_id" class="form-label">ID de Cuenta Publicitaria:</label>
+                <input type="text" id="account_id" name="account_id" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Consultar</button>
+        </form>
+        <pre id="result" class="bg-white p-3 border rounded"></pre>
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

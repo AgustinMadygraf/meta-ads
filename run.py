@@ -16,16 +16,24 @@ def main():
     " Punto de entrada principal para ejecutar la obtención de información de la cuenta publicitaria."
     logger = get_logger()
     creds = get_facebook_credentials()
+
+    # Validación explícita de AD_ACCOUNT_ID
+    ad_account_id = creds.get("ad_account_id")
+    if not ad_account_id or ad_account_id.strip() == "":
+        logger.warning("AD_ACCOUNT_ID: ❌ No definido o vacío en .env")
+    else:
+        logger.info("AD_ACCOUNT_ID: ✅ '%s' (OK)", ad_account_id)
+
     gateway = FacebookGateway(
         access_token=creds["access_token"],
         app_id=creds["app_id"],
         app_secret=creds["app_secret"],
-        account_id=creds["ad_account_id"]
+        account_id=ad_account_id
     )
     get_account_info_use_case = GetAdAccountInfoUseCase(gateway)
     ad_account_controller = AdAccountController(get_account_info_use_case)
     try:
-        ad_account = ad_account_controller.get_account_info(creds["ad_account_id"])
+        ad_account = ad_account_controller.get_account_info(ad_account_id)
         output = AdAccountPresenter.to_cli_string(ad_account)
         logger.info(output)
     except FacebookGatewayError as e:
