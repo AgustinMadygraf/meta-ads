@@ -2,13 +2,10 @@
 Path: src/use_cases/get_ad_account_info.py
 """
 
-
-from src.use_cases.ports.ad_account_gateway_port import AdAccountGatewayPort
-from src.interface_adapters.gateway.facebook_gateway import FacebookGatewayError
-from src.entities.ad_account import AdAccount
 from src.shared.logger import get_logger
 
-
+from src.use_cases.ports.ad_account_gateway_port import AdAccountGatewayPort
+from src.entities.ad_account import AdAccount
 
 class GetAdAccountInfoUseCase:
     "Caso de uso para obtener información de la cuenta publicitaria."
@@ -31,9 +28,10 @@ class GetAdAccountInfoUseCase:
                 currency=data.get('currency'),
                 amount_spent=data.get('amount_spent'),
             )
-        except FacebookGatewayError as e:
+        except (KeyError, ValueError) as e:
             self.logger.error("Error al obtener información de la cuenta publicitaria: %s", e)
-            if hasattr(e, 'details') and e.details:
-                for k, v in e.details.items():
+            details = getattr(e, 'details', None)
+            if details:
+                for k, v in details.items():
                     self.logger.error("%s: %s", k, v)
             return None
