@@ -5,6 +5,7 @@ Path: src/infrastructure/facebook_gateway.py
 from facebook_business.exceptions import FacebookRequestError
 from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.adaccount import AdAccount
+
 from src.use_cases.ports.ad_account_gateway_port import AdAccountGatewayPort
 
 # Excepción personalizada para el gateway

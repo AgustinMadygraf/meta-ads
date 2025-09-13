@@ -4,11 +4,12 @@ Path: run.py
 
 from src.shared.config import get_facebook_credentials
 from src.shared.logger import get_logger
+import sys
+
 from src.infrastructure.facebook_gateway import FacebookGateway, FacebookGatewayError
-from src.use_cases.get_ad_account_info import GetAdAccountInfoUseCase
 from src.interface_adapters.controller.ad_account_controller import AdAccountController
 from src.interface_adapters.presenter.ad_account_presenter import AdAccountPresenter
-
+from src.use_cases.get_ad_account_info import GetAdAccountInfoUseCase
 
 def main():
     " Punto de entrada principal para ejecutar la obtención de información de la cuenta publicitaria."
@@ -35,4 +36,8 @@ def main():
         logger.error("[ERROR] Error inesperado: %s", e)
 
 if __name__ == "__main__":
-    main()
+    if "--flask" in sys.argv:
+        from src.infrastructure.flask_app import app
+        app.run(debug=True)
+    else:
+        main()
