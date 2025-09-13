@@ -2,9 +2,10 @@
 Path: run.py
 """
 
+import sys
+
 from src.shared.config import get_facebook_credentials
 from src.shared.logger import get_logger
-import sys
 
 from src.infrastructure.facebook_gateway import FacebookGateway, FacebookGatewayError
 from src.interface_adapters.controller.ad_account_controller import AdAccountController
