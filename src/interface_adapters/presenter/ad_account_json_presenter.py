@@ -12,7 +12,9 @@ class AdAccountJsonPresenter:
         return {
             "id": ad_account.id,
             "name": ad_account.name,
-            "status": ad_account.status,
+            "account_status": ad_account.account_status,
+            "currency": ad_account.currency,
+            "amount_spent": ad_account.amount_spent,
         }
 
     @staticmethod

@@ -10,9 +10,9 @@ class AdAccountController:
     def __init__(self, get_account_info_use_case: GetAdAccountInfoUseCase):
         self.get_account_info_use_case = get_account_info_use_case
 
-    def get_account_info(self):
+    def get_account_info(self, account_id):
         """
         Orquesta la obtención de información de la cuenta publicitaria.
         Devuelve la entidad AdAccount o None si hay error.
         """
-        return self.get_account_info_use_case.execute()
+        return self.get_account_info_use_case.execute(account_id)

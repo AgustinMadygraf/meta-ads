@@ -20,4 +20,8 @@ def build_ad_account_controller(
     account_id = creds["ad_account_id"]
 
     gateway = FacebookGateway(access_token, app_id, app_secret, account_id)
-    return AdAccountHttpController(gateway)
+    from src.use_cases.get_ad_account_info import GetAdAccountInfoUseCase
+    from src.interface_adapters.presenter.ad_account_json_presenter import AdAccountJsonPresenter
+    use_case = GetAdAccountInfoUseCase(gateway)
+    presenter = AdAccountJsonPresenter
+    return AdAccountHttpController(use_case, presenter)

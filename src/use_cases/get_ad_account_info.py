@@ -13,13 +13,13 @@ class GetAdAccountInfoUseCase:
         self.gateway = gateway
         self.logger = get_logger()
 
-    def execute(self):
+    def execute(self, account_id: str):
         """
         Orquesta la obtención de información de la cuenta publicitaria.
         Aquí se pueden agregar validaciones o lógica de negocio adicional.
         """
         try:
-            data = self.gateway.get_account_info()
+            data = self.gateway.get_ad_account_info(account_id)
             # Mapear los datos crudos a la entidad de dominio
             return AdAccount(
                 id=data.get('id'),

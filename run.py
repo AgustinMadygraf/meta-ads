@@ -25,7 +25,7 @@ def main():
     get_account_info_use_case = GetAdAccountInfoUseCase(gateway)
     ad_account_controller = AdAccountController(get_account_info_use_case)
     try:
-        ad_account = ad_account_controller.get_account_info()
+        ad_account = ad_account_controller.get_account_info(creds["ad_account_id"])
         output = AdAccountPresenter.to_cli_string(ad_account)
         logger.info(output)
     except FacebookGatewayError as e:
