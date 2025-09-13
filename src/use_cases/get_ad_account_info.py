@@ -3,14 +3,16 @@ Path: src/use_cases/get_ad_account_info.py
 """
 
 
-from src.interface_adapters.gateway.facebook_gateway import FacebookGateway, FacebookGatewayError
+from src.use_cases.ports.ad_account_gateway_port import AdAccountGatewayPort
+from src.interface_adapters.gateway.facebook_gateway import FacebookGatewayError
 from src.entities.ad_account import AdAccount
 from src.shared.logger import get_logger
 
 
+
 class GetAdAccountInfoUseCase:
     "Caso de uso para obtener información de la cuenta publicitaria."
-    def __init__(self, gateway: FacebookGateway):
+    def __init__(self, gateway: AdAccountGatewayPort):
         self.gateway = gateway
         self.logger = get_logger()
 

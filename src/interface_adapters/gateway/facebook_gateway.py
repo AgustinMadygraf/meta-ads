@@ -2,9 +2,11 @@
 Path: src/interface_adapters/gateway/facebook_gateway.py
 """
 
+
 from facebook_business.exceptions import FacebookRequestError
 from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.adaccount import AdAccount
+from src.use_cases.ports.ad_account_gateway_port import AdAccountGatewayPort
 
 
 # Excepción personalizada para el gateway
@@ -15,7 +17,8 @@ class FacebookGatewayError(Exception):
         self.details = details
 
 
-class FacebookGateway:
+
+class FacebookGateway(AdAccountGatewayPort):
     "Adaptador para interactuar con la API de Facebook Ads."
     def __init__(self, access_token: str, app_id: str, app_secret: str, account_id: str):
         self.access_token = access_token
@@ -23,6 +26,19 @@ class FacebookGateway:
         self.app_secret = app_secret
         self.account_id = account_id
         self._api = None
+
+    def get_ad_account_info(self, account_id: str) -> dict:
+        """
+        Implementación del puerto. Permite obtener la información de una cuenta publicitaria por su ID.
+        """
+        # Guardar el account_id temporalmente y restaurar el original después
+        original_account_id = self.account_id
+        self.account_id = account_id
+        try:
+            info = self.get_account_info()
+        finally:
+            self.account_id = original_account_id
+        return info
 
     def initialize(self):
         "Inicializa la API de Facebook."
